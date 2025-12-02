@@ -7,11 +7,10 @@
 <style>
 :root{
   --bg: #0b3a37;
-  --accent: #8bd3d6;
   --muted: #d9efe9;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; -webkit-font-smoothing:antialiased;}
+html,body{height:100%;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; -webkit-font-smoothing:antialiased;}
 body{
   background: linear-gradient(160deg, #071f1d 0%, var(--bg) 45%, #083c3a 100%);
   min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px; overflow:hidden; color:var(--muted);
@@ -23,8 +22,8 @@ body{
   border-radius:18px; padding:28px; box-shadow: 0 20px 60px rgba(2,10,9,0.55); backdrop-filter: blur(6px) saturate(120%);
   border: 1px solid rgba(255,255,255,0.03); position:relative; overflow:hidden;
 }
-h1.title{font-size:clamp(1.4rem, 3.6vw, 2rem); text-align:center; color: #e8f9f6; margin-bottom:12px; letter-spacing:0.3px;}
-.typing{ font-size:clamp(1rem, 2.2vw, 1.05rem); color:#e6f7f4; line-height:1.7; max-height:360px; overflow-y:auto; padding:14px 16px; border-radius:12px;
+h1.title{font-size:clamp(1.4rem, 3.6vw, 2rem); text-align:center; margin-bottom:12px; letter-spacing:0.3px;}
+.typing{ font-size:clamp(1rem, 2.2vw, 1.05rem); line-height:1.7; max-height:360px; overflow-y:auto; padding:14px 16px; border-radius:12px;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.02); box-shadow: inset 0 4px 18px rgba(0,0,0,0.25); white-space:pre-wrap; -webkit-overflow-scrolling: touch;
 }
 .controls{ display:flex; gap:12px; justify-content:center; margin-top:18px;}
@@ -61,38 +60,12 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 /* sparkles */
 .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#ffffff 0%, rgba(255,255,255,0.2)60%);filter:blur(.6px);opacity:.95;transform:translate(-50%,-50%);animation:spark-rise 1.2s ease-out forwards;}
 @keyframes spark-rise{from{transform:translate(-50%,-50%) scale(1);opacity:1}to{transform:translate(-50%,-120%) scale(.4);opacity:0}}
-
-/* floating/dancing GIF animation */
-@keyframes floatDance {
-  0% { transform: translate(-50%, -50%) translateY(0) scale(1); }
-  25% { transform: translate(-50%, -50%) translateY(-8px) scale(1.03); }
-  50% { transform: translate(-50%, -50%) translateY(0) scale(1); }
-  75% { transform: translate(-50%, -50%) translateY(-5px) scale(1.02); }
-  100% { transform: translate(-50%, -50%) translateY(0) scale(1); }
-}
-#gifContainer.show img { animation: floatDance 2.2s ease-in-out infinite; }
-
-/* floating stars */
-.star{
-  position:absolute;
-  width:4px;
-  height:4px;
-  background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0.3) 70%);
-  border-radius:50%;
-  opacity:0;
-  pointer-events:none;
-  animation: starRise 1.5s linear forwards;
-}
-@keyframes starRise{
-  0% { transform: translateY(0) scale(1); opacity:1; }
-  100% { transform: translateY(-60px) scale(0.5); opacity:0; }
-}
 </style>
 </head>
 <body>
 <main class="card" id="mainCard">
   <div id="pageContent">
-    <h1 class="title">🎉 Happiest Birthday Garv! 🎉</h1>
+    <h1 class="title">🎉 Happy Birthday Garv! 🎉</h1>
     <div id="message" class="typing"></div>
     <div class="controls">
       <button id="musicBtn" class="btn">💗 Play Music & Reveal</button>
@@ -103,7 +76,7 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 
 <!-- GIF popup -->
 <div id="gifContainer">
-  <img src="dancing_baby.gif" alt="Dancing baby GIF">
+  <img src="your_gif.gif" alt="Funny Birthday GIF">
   <div class="caption">
     bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔
     Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai
@@ -124,7 +97,7 @@ Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor �
 
 Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
 
-God bless you Bhauu! Enjoy your special day. Aur Get Well Soon bro!!
+God bless you Bhauu! Enjoy your special day.
 
 And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
 
@@ -139,29 +112,17 @@ const pageContent = document.getElementById('pageContent');
 
 let idx=0, TYPE_SPEED=22;
 
-// Typewriter
 function typeStep(){
   if(idx>=MSG.length){ showGifButton(); return; }
   const ch = MSG[idx++];
   messageEl.innerHTML += (ch=='\n'?'<br>':ch);
   messageEl.scrollTop = messageEl.scrollHeight;
-
-  if(Math.random()<0.25){
-    const star = document.createElement('div');
-    star.className='star';
-    star.style.left=(messageEl.offsetLeft + messageEl.offsetWidth*Math.random())+'px';
-    star.style.top=(messageEl.offsetTop + messageEl.offsetHeight*Math.random())+'px';
-    document.body.appendChild(star);
-    setTimeout(()=> star.remove(),1600);
-  }
-
   let extra=0; if(".!?".includes(ch)) extra=140; else if(",;".includes(ch)) extra=50;
   setTimeout(typeStep, TYPE_SPEED+extra);
 }
 
 function revealWithTypewriter(){ messageEl.innerHTML=''; idx=0; typeStep(); }
 
-// Add "A Message for You" button
 function showGifButton(){
   if(document.querySelector('#pageContent button.showGifBtn')) return;
   const btn = document.createElement('button');
@@ -169,15 +130,12 @@ function showGifButton(){
   btn.textContent='💌 A Message for You';
   pageContent.appendChild(btn);
   btn.addEventListener('click', ()=>{
-    pageContent.style.display='none'; // hide card completely
+    pageContent.style.display='none'; // hide main content
     gifContainer.style.display='flex';
     setTimeout(()=> gifContainer.classList.add('show'), 20);
-    spawnSparkles(35);
-    btn.disabled=true;
   });
 }
 
-// Go back button
 goBackBtn.addEventListener('click', ()=>{
   gifContainer.classList.remove('show');
   setTimeout(()=>{
@@ -189,20 +147,7 @@ goBackBtn.addEventListener('click', ()=>{
     const btn = document.querySelector('#pageContent button.showGifBtn');
     if(btn) btn.disabled=false;
   }, 400);
-  spawnSparkles(20);
 });
-
-// Sparkles
-function spawnSparkles(count=20){
-  for(let i=0;i<count;i++){
-    const s = document.createElement('div');
-    s.className='spark';
-    s.style.left=(window.innerWidth*Math.random())+'px';
-    s.style.top=(window.innerHeight*Math.random())+'px';
-    document.body.appendChild(s);
-    setTimeout(()=> s.remove(),1200);
-  }
-}
 
 // Music + typewriter
 musicBtn.addEventListener('click', async ()=>{
