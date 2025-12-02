@@ -38,6 +38,7 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 #gifContainer.show{ transform:translate(-50%,-50%) scale(1); opacity:1;}
 #gifContainer img{ max-width:260px; border-radius:12px; box-shadow:0 12px 38px rgba(0,0,0,0.52);}
 #gifContainer .caption{ margin-top:14px; text-align:center; font-size:1rem; color:#ffdcdc; text-shadow: 0 2px 6px rgba(0,0,0,0.45);}
+#gifContainer button{ margin-top:12px; }
 @media(max-width:520px){ .typing{ max-height: 260px; padding:12px;} #gifContainer img{ max-width:180px;} }
 
 /* sparkles */
@@ -70,8 +71,11 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 <!-- GIF popup -->
 <div id="gifContainer">
   <img src="dancing_baby.gif" alt="Dancing baby GIF">
-  <div class="caption">bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔
-Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai</div>
+  <div class="caption">
+    bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔
+    Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai
+  </div>
+  <button id="goBackBtn" class="btn">⬅ Go Back</button>
 </div>
 
 <audio id="bgMusic" src="music.mp3" preload="auto"></audio>
@@ -97,6 +101,7 @@ const messageEl = document.getElementById('message');
 const musicBtn = document.getElementById('musicBtn');
 const bgm = document.getElementById('bgMusic');
 const gifContainer = document.getElementById('gifContainer');
+const goBackBtn = document.getElementById('goBackBtn');
 
 let idx=0, TYPE_SPEED=22;
 
@@ -123,27 +128,29 @@ function spawnSparkles(count=20){
 }
 
 function showGifButton(){
-  if(document.querySelector('#mainCard button.showGifBtn')) return;
+  if(document.querySelector('#pageContent button.showGifBtn')) return;
   const btn = document.createElement('button');
   btn.className='btn showGifBtn';
   btn.textContent='💌 A Message for You';
-  document.getElementById('mainCard').appendChild(btn);
+  document.getElementById('pageContent').appendChild(btn); // inside pageContent
   btn.addEventListener('click', ()=>{
-    // fade out page content
     const pageContent = document.getElementById('pageContent');
     pageContent.style.transition = 'opacity 0.6s ease';
     pageContent.style.opacity = 0;
     setTimeout(()=> pageContent.style.display='none', 600);
-
-    // show GIF
     gifContainer.classList.add('show');
-
-    // sparkles
     spawnSparkles(35);
-
     btn.disabled = true;
   });
 }
+
+goBackBtn.addEventListener('click', ()=>{
+  gifContainer.classList.remove('show');
+  const pageContent = document.getElementById('pageContent');
+  pageContent.style.display = 'block';
+  setTimeout(()=> pageContent.style.opacity = 1, 20);
+  spawnSparkles(20);
+});
 
 musicBtn.addEventListener('click', async ()=>{
   try{ await bgm.play(); bgm.loop=true; bgm.volume=0.82; }catch(e){console.warn('Audio play blocked', e);}
