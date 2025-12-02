@@ -16,6 +16,8 @@ body{
   background: linear-gradient(160deg, #071f1d 0%, var(--bg) 45%, #083c3a 100%);
   min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px; overflow:hidden; color:var(--muted);
 }
+
+/* CARD */
 .card{
   width:94%; max-width:780px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.03));
   border-radius:18px; padding:28px; box-shadow: 0 20px 60px rgba(2,10,9,0.55); backdrop-filter: blur(6px) saturate(120%);
@@ -32,18 +34,11 @@ button.btn:active { transform: translateY(1px) scale(.995) }
 button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 .note{ margin-top:14px; font-style:italic; color:rgba(230,247,243,0.8); text-align:center;}
 
-/* GIF popup */
+/* GIF POPUP */
 #gifContainer{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%) scale(0);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:70;
-  transition: all 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+  position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  z-index:70; transition: all 0.6s cubic-bezier(.68,-0.55,.27,1.55);
 }
 #gifContainer.show{
   transform:translate(-50%, -50%) scale(1);
@@ -97,7 +92,7 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 <body>
 <main class="card" id="mainCard">
   <div id="pageContent">
-    <h1 class="title">🎉 Happy Birthday Garv! 🎉</h1>
+    <h1 class="title">🎉 Happiest Birthday Garv! 🎉</h1>
     <div id="message" class="typing"></div>
     <div class="controls">
       <button id="musicBtn" class="btn">💗 Play Music & Reveal</button>
@@ -129,7 +124,7 @@ Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor �
 
 Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
 
-God bless you Bhauu! Enjoy your special day. And Get Well Soon bro!
+God bless you Bhauu! Enjoy your special day. Aur Get Well Soon bro!!
 
 And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
 
@@ -144,14 +139,13 @@ const pageContent = document.getElementById('pageContent');
 
 let idx=0, TYPE_SPEED=22;
 
-// typewriter function
+// Typewriter
 function typeStep(){
   if(idx>=MSG.length){ showGifButton(); return; }
   const ch = MSG[idx++];
   messageEl.innerHTML += (ch=='\n'?'<br>':ch);
   messageEl.scrollTop = messageEl.scrollHeight;
 
-  // spawn stars
   if(Math.random()<0.25){
     const star = document.createElement('div');
     star.className='star';
@@ -167,7 +161,7 @@ function typeStep(){
 
 function revealWithTypewriter(){ messageEl.innerHTML=''; idx=0; typeStep(); }
 
-// add the "A Message for You" button
+// Add "A Message for You" button
 function showGifButton(){
   if(document.querySelector('#pageContent button.showGifBtn')) return;
   const btn = document.createElement('button');
@@ -175,27 +169,30 @@ function showGifButton(){
   btn.textContent='💌 A Message for You';
   pageContent.appendChild(btn);
   btn.addEventListener('click', ()=>{
-    pageContent.style.display='none';
-    gifContainer.classList.add('show');
+    pageContent.style.display='none'; // hide card completely
+    gifContainer.style.display='flex';
+    setTimeout(()=> gifContainer.classList.add('show'), 20);
     spawnSparkles(35);
     btn.disabled=true;
   });
 }
 
-// go back button
+// Go back button
 goBackBtn.addEventListener('click', ()=>{
   gifContainer.classList.remove('show');
-  pageContent.style.display='block';
-  messageEl.innerHTML='';
-  idx=0;
-  musicBtn.disabled=false;
-  musicBtn.textContent='💗 Play Music & Reveal';
-  const btn = document.querySelector('#pageContent button.showGifBtn');
-  if(btn) btn.disabled=false;
+  setTimeout(()=>{
+    pageContent.style.display='block';
+    messageEl.innerHTML='';
+    idx=0;
+    musicBtn.disabled=false;
+    musicBtn.textContent='💗 Play Music & Reveal';
+    const btn = document.querySelector('#pageContent button.showGifBtn');
+    if(btn) btn.disabled=false;
+  }, 400);
   spawnSparkles(20);
 });
 
-// sparkles
+// Sparkles
 function spawnSparkles(count=20){
   for(let i=0;i<count;i++){
     const s = document.createElement('div');
@@ -207,7 +204,7 @@ function spawnSparkles(count=20){
   }
 }
 
-// music + typewriter
+// Music + typewriter
 musicBtn.addEventListener('click', async ()=>{
   try{ await bgm.play(); bgm.loop=true; bgm.volume=0.82; }catch(e){console.warn('Audio play blocked', e);}
   musicBtn.disabled=true;
