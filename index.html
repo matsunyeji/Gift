@@ -6,136 +6,189 @@
 <title>Happy Birthday — Garv</title>
 
 <style>
-/* ===== SPACE BACKGROUND ===== */
-body {
-  margin: 0;
-  height: 100vh;
-  background: radial-gradient(circle at 30% 20%, rgba(0,255,209,0.18), transparent 55%),
-              radial-gradient(circle at 70% 80%, rgba(0,180,255,0.15), transparent 55%),
-              #062b28;
-  background-size: cover;
-  overflow: hidden;
-  color: #d9efe9;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+:root{
+  --muted: #e8fffb;
 }
 
-/* tiny stars */
-body::before {
-  content: "";
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background:
-    radial-gradient(2px 2px at 10% 20%, #fff8 70%, transparent 100%),
-    radial-gradient(2px 2px at 80% 15%, #fff9 70%, transparent 100%),
-    radial-gradient(2px 2px at 50% 70%, #fff8 70%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 25% 60%, #fff7 70%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 60% 40%, #fff7 70%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 90% 50%, #fff6 70%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ===== CARD ===== */
-.card {
-  width: 94%;
-  max-width: 780px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 18px;
-  padding: 28px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-  backdrop-filter: blur(7px) saturate(120%);
-  border: 1px solid rgba(255,255,255,0.08);
+/* ---------------------------------------------------
+   🌌 OUTER SPACE BACKGROUND
+------------------------------------------------------ */
+body{
+  background: radial-gradient(circle at 20% 30%, #0b1a27, #030b12 60%, #010409 100%);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  overflow:hidden;
+  color:var(--muted);
   position: relative;
-  z-index: 5;
+  font-family: Inter, system-ui, sans-serif;
 }
 
-h1.title {
-  text-align: center;
-  margin-bottom: 14px;
+/* ⭐ Dense Small Stars */
+body::before{
+  content:"";
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:
+    radial-gradient(1px 1px at 10% 20%, white, transparent),
+    radial-gradient(1px 1px at 30% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 15%, white, transparent),
+    radial-gradient(1px 1px at 80% 45%, white, transparent),
+    radial-gradient(1px 1px at 60% 90%, white, transparent),
+    radial-gradient(1px 1px at 25% 50%, white, transparent),
+    radial-gradient(1px 1px at 70% 85%, white, transparent),
+    radial-gradient(1px 1px at 85% 30%, white, transparent),
+    radial-gradient(1px 1px at 45% 65%, white, transparent),
+    radial-gradient(1px 1px at 15% 80%, white, transparent);
+  opacity:0.55;
+  animation: twinkle 6s infinite ease-in-out alternate;
+  pointer-events:none;
 }
 
-.typing {
-  padding: 14px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: inset 0 4px 12px rgba(0,0,0,0.25);
-  max-height: 360px;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  line-height: 1.6;
+/* ⭐ Brighter Pulsating Stars */
+body::after{
+  content:"";
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:
+    radial-gradient(2px 2px at 20% 30%, #9fe7ff, transparent),
+    radial-gradient(2.5px 2.5px at 75% 60%, #c2f4ff, transparent),
+    radial-gradient(2px 2px at 45% 80%, #baf7ff, transparent);
+  opacity:0.35;
+  animation: twinkle2 8s infinite ease-in-out alternate;
+  pointer-events:none;
 }
 
-/* controls */
-.controls {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
+@keyframes twinkle{
+  0%{ opacity:0.45; transform:scale(1); }
+  100%{ opacity:0.75; transform:scale(1.03); }
 }
 
-.btn {
-  background: linear-gradient(135deg, #9ff3e9, #b8ffd6);
-  border: none;
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-weight: 800;
-  cursor: pointer;
-  color: #072b27;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
-  transition: 0.15s;
-}
-.btn:active { transform: scale(0.97); }
-
-.note {
-  margin-top: 14px;
-  text-align: center;
-  font-style: italic;
-  opacity: 0.8;
+@keyframes twinkle2{
+  0%{ opacity:0.30; transform:scale(1); }
+  100%{ opacity:0.55; transform:scale(1.02); }
 }
 
-/* ===== GIF POPUP ===== */
-#gifContainer {
+/* 🌠 SHOOTING STARS */
+.shooting-star{
   position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  transition: 0.45s ease;
+  top: -10px;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(180deg, white, rgba(255,255,255,0));
+  border-radius: 50%;
+  opacity: 0.9;
+  filter: blur(1px);
+  animation: shoot 1.5s linear forwards;
   z-index: 999;
 }
 
-#gifContainer.show {
+@keyframes shoot{
+  0%{
+    transform: translate(-200px, -50px) rotate(45deg);
+    opacity:1;
+  }
+  100%{
+    transform: translate(900px, 600px) rotate(45deg);
+    opacity:0;
+  }
+}
+
+/* ---------------------------------------------------
+   CARD
+------------------------------------------------------ */
+.card{
+  width:94%; max-width:780px;
+  background: rgba(255,255,255,0.05);
+  border-radius:20px;
+  padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px) saturate(120%);
+  border:1px solid rgba(255,255,255,0.08);
+  position:relative;
+}
+
+.title{
+  font-size:1.9rem;
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.typing{
+  font-size:1.05rem;
+  line-height:1.7;
+  max-height:360px;
+  overflow-y:auto;
+  padding:14px 16px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.05);
+  box-shadow:inset 0 4px 18px rgba(0,0,0,0.25);
+  white-space:pre-wrap;
+}
+
+.controls{ display:flex; justify-content:center; margin-top:18px;}
+.btn{
+  background: linear-gradient(135deg, #9ff3e9, #b8ffd6);
+  color:#072b27;
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+.btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+.note{
+  margin-top:14px;
+  text-align:center;
+  opacity:.8;
+}
+
+/* ---------------------------------------------------
+   GIF POPUP
+------------------------------------------------------ */
+#gifContainer{
+  position: fixed;
+  top:50%; left:50%;
+  transform: translate(-50%, -50%) scale(0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+  transition: 0.4s ease;
+  opacity:0;
+}
+#gifContainer.show{
   transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
+  opacity:1;
 }
-
-#gifContainer img {
-  max-width: 260px;
-  border-radius: 14px;
+#gifContainer img{
+  max-width:260px;
+  border-radius:12px;
 }
-
-.caption {
-  margin-top: 12px;
-  text-align: center;
-  color: #ffdcdc;
-  max-width: 280px;
+.caption{
+  margin-top:12px;
+  text-align:center;
+  max-width:280px;
+  color:#ffeaea;
 }
-
+#gifContainer .btn{
+  margin-top:12px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- 🌌 MAIN CARD -->
 <main class="card" id="mainCard">
-
   <div id="pageContent">
-    <h1 class="title">🎉 Happy Birthday Garv! 🎉</h1>
-
+    <h1 class="title">🎉 Happiest Birthday Garv! 🎉</h1>
     <div id="message" class="typing"></div>
 
     <div class="controls">
@@ -144,118 +197,109 @@ h1.title {
 
     <div class="note">— with lots of kasht taken by your homie</div>
   </div>
-
 </main>
 
-<!-- GIF OVERLAY -->
+<!-- 🌠 GIF POPUP -->
 <div id="gifContainer">
-  <img src="baby_dance.gif" alt="Cute GIF">
+  <img src="baby_dance.gif" alt="Funny GIF">
   <div class="caption">
-    bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔<br>
-    Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai
+    bhai jyada der tak mat jaag dark circles aa jayenge phir look maxxing ka progress reset ho jayega 😔<br>
+    Chalo so jao bday boy kal fijicks ke paper mein aag lagani hai 🔥
   </div>
-  <button id="goBackBtn" class="btn" style="margin-top:14px;">⬅ Go Back</button>
+  <button id="goBackBtn" class="btn">⬅ Go Back</button>
 </div>
 
 <audio id="bgMusic" src="music.mp3" preload="auto"></audio>
 
 <script>
-/* ==== MESSAGE ==== */
-const MSG = `Bhaiii tysm for guiding me and explaining things to me for hours like literally saving me every single time. And fr tg that you initiated that convo in the Live Insaan server varna hum aaj dost hi nahi hote ;-; (but aap catfish hote hote bach gaye 💀).
-
-Anyways ab toh we homies bro daily tea spilling aur aapko gossip karne mein majboor kar diya hai humne lol 😂.
-
-You’re genuinely an amazing and nice guy, sabka aur mera acha sochne ke liye dhanyawaad! Just be that way always… bas thoda gym shym jao aur body banao kya pata koi aapko ched de toh Cynthia poch nahi payegi 💔💀.
-
-Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor 💀.
-
-Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
-
-God bless you Bhauu! Enjoy your special day.
-
-And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
-
-Once Again Happiest birthday Garvitaa 🎀`;
+/* ---------------------------------------------------
+   Typewriter Message
+------------------------------------------------------ */
+const MSG = `Bhaiii tysm for guiding me ... (your full message here)`;
 
 const messageEl = document.getElementById("message");
-const musicBtn = document.getElementById("musicBtn");
-const bgm = document.getElementById("bgMusic");
-const pageContent = document.getElementById("pageContent");
+let idx = 0, TYPE_SPEED = 22;
 
-let idx = 0;
-
-function typeStep() {
-  if (idx >= MSG.length) {
-    showGifButton();
+function typeStep(){
+  if(idx >= MSG.length){
+    showGif();
     return;
   }
-  const ch = MSG[idx++];
-  messageEl.innerHTML += (ch === "\n" ? "<br>" : ch);
+  let ch = MSG[idx++];
+  messageEl.innerHTML += (ch == "\n" ? "<br>" : ch);
   messageEl.scrollTop = messageEl.scrollHeight;
 
-  let extra = (".!?".includes(ch) ? 140 : ",;".includes(ch) ? 50 : 0);
-  setTimeout(typeStep, 22 + extra);
+  let extra = 0;
+  if(".!?".includes(ch)) extra = 140;
+  else if(",;".includes(ch)) extra = 50;
+
+  setTimeout(typeStep, TYPE_SPEED + extra);
 }
 
-function revealWithTypewriter() {
-  messageEl.innerHTML = "";
+function revealWithTypewriter(){
   idx = 0;
+  messageEl.innerHTML = "";
   typeStep();
 }
 
-/* show GIF button */
-function showGifButton() {
-  const btn = document.createElement("button");
-  btn.className = "btn";
-  btn.textContent = "🎁 Open Surprise";
-  btn.style.marginTop = "14px";
-  btn.onclick = showGif;
+/* ---------------------------------------------------
+   Music Button
+------------------------------------------------------ */
+const musicBtn = document.getElementById("musicBtn");
+const bgm = document.getElementById("bgMusic");
 
-  document.querySelector(".controls").appendChild(btn);
-}
-
-/* ===== GIF POPUP ===== */
-const gifContainer = document.getElementById("gifContainer");
-const goBackBtn = document.getElementById("goBackBtn");
-
-function showGif() {
-  pageContent.style.display = "none";
-  gifContainer.style.display = "flex";
-
-  setTimeout(() => gifContainer.classList.add("show"), 20);
-}
-
-goBackBtn.addEventListener("click", () => {
-  gifContainer.classList.remove("show");
-
-  setTimeout(() => {
-    gifContainer.style.display = "none";
-    pageContent.style.display = "block";
-
-    // reset typewriter
-    messageEl.innerHTML = "";
-    idx = 0;
-
-    // reset main button
-    document.querySelector(".controls").innerHTML = "";
-    document.querySelector(".controls").appendChild(musicBtn);
-    musicBtn.disabled = false;
-    musicBtn.textContent = "💗 Play Music & Reveal";
-  }, 300);
-});
-
-/* ===== MUSIC BUTTON ===== */
-musicBtn.addEventListener("click", async () => {
-  try {
+musicBtn.addEventListener("click", async ()=>{
+  try{
     await bgm.play();
     bgm.loop = true;
-    bgm.volume = 0.82;
-  } catch (e) {}
+    bgm.volume = 0.85;
+  }catch(e){}
 
   musicBtn.disabled = true;
   musicBtn.textContent = "🎵 Playing...";
   revealWithTypewriter();
 });
+
+/* ---------------------------------------------------
+   GIF POPUP Logic
+------------------------------------------------------ */
+const gifContainer = document.getElementById("gifContainer");
+const pageContent = document.getElementById("pageContent");
+const goBackBtn = document.getElementById("goBackBtn");
+
+function showGif(){
+  pageContent.style.display = "none";
+  gifContainer.classList.add("show");
+}
+
+goBackBtn.addEventListener("click", ()=>{
+  gifContainer.classList.remove("show");
+
+  setTimeout(()=>{
+    pageContent.style.display = "block";
+    messageEl.innerHTML = "";
+    idx = 0;
+    musicBtn.disabled = false;
+    musicBtn.textContent = "💗 Play Music & Reveal";
+  }, 300);
+});
+
+/* ---------------------------------------------------
+   Shooting Stars
+------------------------------------------------------ */
+function spawnShootingStar(){
+  const star = document.createElement("div");
+  star.classList.add("shooting-star");
+  star.style.left = Math.random() * window.innerWidth + "px";
+  document.body.appendChild(star);
+  setTimeout(()=> star.remove(), 1500);
+}
+
+// random intervals
+setInterval(()=>{
+  if(Math.random() < 0.6) spawnShootingStar();
+}, 3000);
 </script>
+
 </body>
 </html>
