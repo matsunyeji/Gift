@@ -194,8 +194,25 @@ gifBtn.onclick = () => {
 };
 
 function goBack() {
+    // Hide GIF page
     document.getElementById("gifPage").style.display = "none";
+    // Show main content again
     document.getElementById("mainContent").style.display = "block";
+
+    // Reset message so typewriter can replay
+    msgBox.innerHTML = "";
+    i = 0;
+
+    // Re-enable the start button
+    document.getElementById("startBtn").disabled = false;
+
+    // Hide the GIF button again
+    gifBtn.style.display = "none";
+
+    // Stop and reset music
+    let audio = document.getElementById("bgMusic");
+    audio.pause();
+    audio.currentTime = 0;
 }
 </script>
 
