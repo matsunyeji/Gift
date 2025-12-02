@@ -11,7 +11,7 @@
   --muted: #d9efe9;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; -webkit-font-smoothing:antialiased}
+html,body{height:100%;font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; -webkit-font-smoothing:antialiased;}
 body{
   background: linear-gradient(160deg, #071f1d 0%, var(--bg) 45%, #083c3a 100%);
   min-height:100vh; display:flex; align-items:center; justify-content:center; padding:32px; overflow:hidden; color:var(--muted);
@@ -20,8 +20,6 @@ body{
   width:94%; max-width:780px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.03));
   border-radius:18px; padding:28px; box-shadow: 0 20px 60px rgba(2,10,9,0.55); backdrop-filter: blur(6px) saturate(120%);
   border: 1px solid rgba(255,255,255,0.03); position:relative; overflow:hidden;
-  opacity:1;
-  transition: opacity 0.6s ease;
 }
 h1.title{font-size:clamp(1.4rem, 3.6vw, 2rem); text-align:center; color: #e8f9f6; margin-bottom:12px; letter-spacing:0.3px;}
 .typing{ font-size:clamp(1rem, 2.2vw, 1.05rem); color:#e6f7f4; line-height:1.7; max-height:360px; overflow-y:auto; padding:14px 16px; border-radius:12px;
@@ -45,7 +43,7 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
   align-items:center;
   justify-content:center;
   z-index:70;
-  transition: all 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+  transition: all 0.6s cubic-bezier(.68,-0.55,.27,1.55);
 }
 #gifContainer.show{
   transform:translate(-50%, -50%) scale(1);
@@ -131,7 +129,7 @@ Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor �
 
 Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
 
-God bless you Bhauu! Enjoy your special day.
+God bless you Bhauu! Enjoy your special day. And Get Well Soon bro!
 
 And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
 
@@ -142,17 +140,18 @@ const musicBtn = document.getElementById('musicBtn');
 const bgm = document.getElementById('bgMusic');
 const gifContainer = document.getElementById('gifContainer');
 const goBackBtn = document.getElementById('goBackBtn');
-const card = document.querySelector('.card');
+const pageContent = document.getElementById('pageContent');
 
 let idx=0, TYPE_SPEED=22;
 
+// typewriter function
 function typeStep(){
   if(idx>=MSG.length){ showGifButton(); return; }
   const ch = MSG[idx++];
   messageEl.innerHTML += (ch=='\n'?'<br>':ch);
   messageEl.scrollTop = messageEl.scrollHeight;
 
-  // spawn magical stars
+  // spawn stars
   if(Math.random()<0.25){
     const star = document.createElement('div');
     star.className='star';
@@ -168,6 +167,35 @@ function typeStep(){
 
 function revealWithTypewriter(){ messageEl.innerHTML=''; idx=0; typeStep(); }
 
+// add the "A Message for You" button
+function showGifButton(){
+  if(document.querySelector('#pageContent button.showGifBtn')) return;
+  const btn = document.createElement('button');
+  btn.className='btn showGifBtn';
+  btn.textContent='💌 A Message for You';
+  pageContent.appendChild(btn);
+  btn.addEventListener('click', ()=>{
+    pageContent.style.display='none';
+    gifContainer.classList.add('show');
+    spawnSparkles(35);
+    btn.disabled=true;
+  });
+}
+
+// go back button
+goBackBtn.addEventListener('click', ()=>{
+  gifContainer.classList.remove('show');
+  pageContent.style.display='block';
+  messageEl.innerHTML='';
+  idx=0;
+  musicBtn.disabled=false;
+  musicBtn.textContent='💗 Play Music & Reveal';
+  const btn = document.querySelector('#pageContent button.showGifBtn');
+  if(btn) btn.disabled=false;
+  spawnSparkles(20);
+});
+
+// sparkles
 function spawnSparkles(count=20){
   for(let i=0;i<count;i++){
     const s = document.createElement('div');
@@ -179,42 +207,11 @@ function spawnSparkles(count=20){
   }
 }
 
-function showGifButton(){
-  if(document.querySelector('#pageContent button.showGifBtn')) return;
-  const btn = document.createElement('button');
-  btn.className='btn showGifBtn';
-  btn.textContent='💌 A Message for You';
-  document.getElementById('pageContent').appendChild(btn);
-  btn.addEventListener('click', ()=>{
-    card.style.opacity = 0;
-    setTimeout(()=> card.style.display='none', 600);
-    gifContainer.classList.add('show');
-    spawnSparkles(35);
-    btn.disabled = true;
-  });
-}
-
-goBackBtn.addEventListener('click', ()=>{
-  gifContainer.classList.remove('show');
-
-  // reset card and message
-  card.style.display='block';
-  setTimeout(()=> card.style.opacity = 1, 20);
-
-  // reset typed message
-  messageEl.innerHTML='';
-  idx=0;
-
-  // re-enable GIF button
-  const btn = document.querySelector('#pageContent button.showGifBtn');
-  if(btn) btn.disabled=false;
-
-  spawnSparkles(20);
-});
-
+// music + typewriter
 musicBtn.addEventListener('click', async ()=>{
   try{ await bgm.play(); bgm.loop=true; bgm.volume=0.82; }catch(e){console.warn('Audio play blocked', e);}
-  musicBtn.disabled=true; musicBtn.textContent='🎵 Playing...';
+  musicBtn.disabled=true;
+  musicBtn.textContent='🎵 Playing...';
   revealWithTypewriter();
 });
 </script>
