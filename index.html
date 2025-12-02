@@ -6,154 +6,133 @@
 <title>Happy Birthday — Garv</title>
 
 <style>
-:root{
-  --bg: #0b3a37;
-  --muted: #d9efe9;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{
-  height:100%;
-  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  -webkit-font-smoothing:antialiased;
-}
-
-body{
-  background: linear-gradient(160deg, #071f1d 0%, var(--bg) 45%, #083c3a 100%);
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:32px;
-  overflow:hidden;
-  color:var(--muted);
-}
-
-/* CARD */
-.card{
-  width:94%;
-  max-width:780px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.03));
-  border-radius:18px;
-  padding:28px;
-  box-shadow: 0 20px 60px rgba(2,10,9,0.55);
-  backdrop-filter: blur(6px) saturate(120%);
-  border: 1px solid rgba(255,255,255,0.03);
-  position:relative;
-  overflow:hidden;
-}
-
-h1.title{
-  font-size:clamp(1.4rem, 3.6vw, 2rem);
-  text-align:center;
-  margin-bottom:12px;
-  letter-spacing:0.3px;
-}
-
-.typing{
-  font-size:clamp(1rem, 2.2vw, 1.05rem);
-  line-height:1.7;
-  max-height:360px;
-  overflow-y:auto;
-  padding:14px 16px;
-  border-radius:12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.02);
-  box-shadow: inset 0 4px 18px rgba(0,0,0,0.25);
-  white-space:pre-wrap;
-  -webkit-overflow-scrolling: touch;
-}
-
-.controls{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  margin-top:18px;
-}
-
-button.btn{
-  background: linear-gradient(135deg, #9ff3e9, #b8ffd6);
-  color:#072b27;
-  border:none;
-  padding:12px 18px;
-  border-radius:12px;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 10px 30px rgba(8,34,33,0.28);
-  transition: transform .16s ease, box-shadow .16s ease, opacity .2s;
-}
-
-button.btn:active { transform: translateY(1px) scale(.995) }
-button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
-
-.note{
-  margin-top:14px;
-  font-style:italic;
-  color:rgba(230,247,243,0.8);
-  text-align:center;
-}
-
-/* GIF POPUP */
-#gifContainer{
-  position: fixed;
-  top:50%; left:50%;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
+/* ===== SPACE BACKGROUND ===== */
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at 30% 20%, rgba(0,255,209,0.18), transparent 55%),
+              radial-gradient(circle at 70% 80%, rgba(0,180,255,0.15), transparent 55%),
+              #062b28;
+  background-size: cover;
+  overflow: hidden;
+  color: #d9efe9;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 999;
-  transition: all 0.5s ease;
 }
 
-#gifContainer.show{
+/* tiny stars */
+body::before {
+  content: "";
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  background:
+    radial-gradient(2px 2px at 10% 20%, #fff8 70%, transparent 100%),
+    radial-gradient(2px 2px at 80% 15%, #fff9 70%, transparent 100%),
+    radial-gradient(2px 2px at 50% 70%, #fff8 70%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 60%, #fff7 70%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 40%, #fff7 70%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 50%, #fff6 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== CARD ===== */
+.card {
+  width: 94%;
+  max-width: 780px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  backdrop-filter: blur(7px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  z-index: 5;
+}
+
+h1.title {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.typing {
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: inset 0 4px 12px rgba(0,0,0,0.25);
+  max-height: 360px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+/* controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btn {
+  background: linear-gradient(135deg, #9ff3e9, #b8ffd6);
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  color: #072b27;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+  transition: 0.15s;
+}
+.btn:active { transform: scale(0.97); }
+
+.note {
+  margin-top: 14px;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* ===== GIF POPUP ===== */
+#gifContainer {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.45s ease;
+  z-index: 999;
+}
+
+#gifContainer.show {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
 }
 
-#gifContainer img{
+#gifContainer img {
   max-width: 260px;
-  border-radius:12px;
+  border-radius: 14px;
 }
 
-#gifContainer .caption{
-  margin-top:12px;
-  text-align:center;
-  max-width:280px;
-  color:#ffdcdc;
-  line-height:1.4;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+.caption {
+  margin-top: 12px;
+  text-align: center;
+  color: #ffdcdc;
+  max-width: 280px;
 }
 
-#gifContainer button{
-  margin-top:12px;
-  padding: 8px 12px;
-}
-
-/* SPARKLES */
-.spark{
-  position:absolute;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:radial-gradient(circle,#ffffff 0%, rgba(255,255,255,0.2)60%);
-  filter:blur(.6px);
-  opacity:.95;
-  transform:translate(-50%,-50%);
-  animation:spark-rise 1.2s ease-out forwards;
-}
-
-@keyframes spark-rise{
-  from{transform:translate(-50%,-50%) scale(1); opacity:1}
-  to{transform:translate(-50%,-120%) scale(.4); opacity:0}
-}
 </style>
 </head>
 
 <body>
 
 <main class="card" id="mainCard">
+
   <div id="pageContent">
     <h1 class="title">🎉 Happy Birthday Garv! 🎉</h1>
 
@@ -165,22 +144,23 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 
     <div class="note">— with lots of kasht taken by your homie</div>
   </div>
+
 </main>
 
 <!-- GIF OVERLAY -->
 <div id="gifContainer">
-  <img src="baby_dance.gif" alt="Funny Birthday GIF">
+  <img src="baby_dance.gif" alt="Cute GIF">
   <div class="caption">
-    bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔  
-    Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai  
+    bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔<br>
+    Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai
   </div>
-  <button id="goBackBtn" class="btn">⬅ Go Back</button>
+  <button id="goBackBtn" class="btn" style="margin-top:14px;">⬅ Go Back</button>
 </div>
 
 <audio id="bgMusic" src="music.mp3" preload="auto"></audio>
 
 <script>
-/* MESSAGE */
+/* ==== MESSAGE ==== */
 const MSG = `Bhaiii tysm for guiding me and explaining things to me for hours like literally saving me every single time. And fr tg that you initiated that convo in the Live Insaan server varna hum aaj dost hi nahi hote ;-; (but aap catfish hote hote bach gaye 💀).
 
 Anyways ab toh we homies bro daily tea spilling aur aapko gossip karne mein majboor kar diya hai humne lol 😂.
@@ -191,103 +171,91 @@ Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor �
 
 Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
 
-God bless you Bhauu! Enjoy your special day. Aur Get Well Soon bro!
+God bless you Bhauu! Enjoy your special day.
 
 And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
 
 Once Again Happiest birthday Garvitaa 🎀`;
 
-const messageEl = document.getElementById('message');
-const musicBtn = document.getElementById('musicBtn');
-const bgm = document.getElementById('bgMusic');
+const messageEl = document.getElementById("message");
+const musicBtn = document.getElementById("musicBtn");
+const bgm = document.getElementById("bgMusic");
+const pageContent = document.getElementById("pageContent");
 
 let idx = 0;
-let TYPE_SPEED = 22;
 
-function typeStep(){
-  if(idx >= MSG.length) return;
+function typeStep() {
+  if (idx >= MSG.length) {
+    showGifButton();
+    return;
+  }
   const ch = MSG[idx++];
-  messageEl.innerHTML += (ch == '\n' ? '<br>' : ch);
+  messageEl.innerHTML += (ch === "\n" ? "<br>" : ch);
   messageEl.scrollTop = messageEl.scrollHeight;
 
-  let extra = 0;
-  if(".!?".includes(ch)) extra = 140;
-  else if(",;".includes(ch)) extra = 50;
-
-  setTimeout(typeStep, TYPE_SPEED + extra);
+  let extra = (".!?".includes(ch) ? 140 : ",;".includes(ch) ? 50 : 0);
+  setTimeout(typeStep, 22 + extra);
 }
 
-function revealWithTypewriter(){
-  messageEl.innerHTML='';
-  idx=0;
+function revealWithTypewriter() {
+  messageEl.innerHTML = "";
+  idx = 0;
   typeStep();
 }
 
-/* GIF + PAGE */
-const gifContainer = document.getElementById('gifContainer');
-const goBackBtn = document.getElementById('goBackBtn');
-const pageContent = document.getElementById('pageContent');
+/* show GIF button */
+function showGifButton() {
+  const btn = document.createElement("button");
+  btn.className = "btn";
+  btn.textContent = "🎁 Open Surprise";
+  btn.style.marginTop = "14px";
+  btn.onclick = showGif;
 
-function createSparkle(){
-  const s = document.createElement('div');
-  s.className = 'spark';
-
-  const angle = Math.random() * 2 * Math.PI;
-  const radius = Math.random() * 80;
-
-  const x = 50 + Math.cos(angle)*radius;
-  const y = 50 + Math.sin(angle)*radius;
-
-  s.style.left = x + '%';
-  s.style.top = y + '%';
-
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 1200);
+  document.querySelector(".controls").appendChild(btn);
 }
 
-function showGif(){
-  pageContent.style.display = 'none';
-  gifContainer.style.display = 'flex';
+/* ===== GIF POPUP ===== */
+const gifContainer = document.getElementById("gifContainer");
+const goBackBtn = document.getElementById("goBackBtn");
 
-  setTimeout(() => gifContainer.classList.add('show'), 20);
+function showGif() {
+  pageContent.style.display = "none";
+  gifContainer.style.display = "flex";
 
-  for(let i=0; i<18; i++){
-    createSparkle();
-  }
+  setTimeout(() => gifContainer.classList.add("show"), 20);
 }
 
-goBackBtn.addEventListener('click', () => {
-  gifContainer.classList.remove('show');
-  setTimeout(()=>{
-    gifContainer.style.display='none';
-    pageContent.style.display='block';
-    messageEl.innerHTML='';
-    idx=0;
-    musicBtn.disabled=false;
-    musicBtn.textContent='💗 Play Music & Reveal';
-  }, 400);
+goBackBtn.addEventListener("click", () => {
+  gifContainer.classList.remove("show");
+
+  setTimeout(() => {
+    gifContainer.style.display = "none";
+    pageContent.style.display = "block";
+
+    // reset typewriter
+    messageEl.innerHTML = "";
+    idx = 0;
+
+    // reset main button
+    document.querySelector(".controls").innerHTML = "";
+    document.querySelector(".controls").appendChild(musicBtn);
+    musicBtn.disabled = false;
+    musicBtn.textContent = "💗 Play Music & Reveal";
+  }, 300);
 });
 
-/* Music + typing */
-musicBtn.addEventListener('click', async ()=>{
-  try{
+/* ===== MUSIC BUTTON ===== */
+musicBtn.addEventListener("click", async () => {
+  try {
     await bgm.play();
     bgm.loop = true;
     bgm.volume = 0.82;
-  }
-  catch(e){ console.warn(e); }
+  } catch (e) {}
 
   musicBtn.disabled = true;
-  musicBtn.textContent = '🎵 Playing...';
-
+  musicBtn.textContent = "🎵 Playing...";
   revealWithTypewriter();
-
-  // after typing finishes → show GIF automatically
-  setTimeout(()=>{
-    showGif();
-  }, MSG.length * 23 + 1200);
 });
 </script>
-
 </body>
 </html>
