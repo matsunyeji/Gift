@@ -31,12 +31,12 @@
     }
 
     .stars:nth-child(odd) { animation-duration: 1.4s; }
-    .stars:nth-child(even) { animation-duration: 2.2s; }
+    .stars:nth-child(even) { animation-duration: 2s; }
 
     /* MAIN CARD */
     .card {
         width: 90%;
-        max-width: 500px;
+        max-width: 600px;
         margin: 100px auto;
         background: rgba(255, 255, 255, 0.08);
         backdrop-filter: blur(10px);
@@ -44,6 +44,14 @@
         padding: 25px;
         text-align: center;
         box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    #message {
+        margin-top: 20px;
+        white-space: pre-wrap;
+        line-height: 1.5;
+        max-height: 300px;
+        overflow-y: auto;
     }
 
     button {
@@ -91,7 +99,7 @@
 </head>
 <body>
 
-<!-- ⭐ GENERATE MANY STARS ⭐ -->
+<!-- ⭐ generate stars ⭐ -->
 <script>
 for (let i = 0; i < 200; i++) {
     let s = document.createElement("div");
@@ -102,12 +110,33 @@ for (let i = 0; i < 200; i++) {
 }
 </script>
 
-<!-- MAIN PAGE CONTENT -->
+<!-- MAIN PAGE -->
 <div id="mainContent">
     <div class="card">
-        <h2>Happy Birthday Garv! 🎉</h2>
-        <p>
-            Bhaiii tysm for guiding me and explaining things to me for hours like literally saving me every single time. And fr tg that you initiated that convo in the Live Insaan server varna hum aaj dost hi nahi hote ;-; (but aap catfish hote hote bach gaye 💀).
+        <h2>🎉 Happy Birthday Bhai 🎉</h2>
+
+        <div id="message"></div>
+
+        <button id="startBtn">Start</button>
+    </div>
+</div>
+
+<!-- GIF POPUP -->
+<div id="gifPage">
+    <img src="cute.gif" alt="Cute GIF">
+    <p>
+        bhai jyada der tak mat jaag 😭  
+        dark circles aa jayenge 😔  
+        phir look maxxing ka progress reset ho jayega 💀  
+        chalo so jao bday boy  
+        kal physics ke paper me aag lagani hai 🔥
+    </p>
+
+    <button onclick="goBack()">Go Back</button>
+</div>
+
+<script>
+const MSG = `Bhaiii tysm for guiding me and explaining things to me for hours like literally saving me every single time. And fr tg that you initiated that convo in the Live Insaan server varna hum aaj dost hi nahi hote ;-; (but aap catfish hote hote bach gaye 💀).
 
 Anyways ab toh we homies bro daily tea spilling aur aapko gossip karne mein majboor kar diya hai humne lol 😂.
 
@@ -117,33 +146,34 @@ Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor �
 
 Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
 
-God bless you Bhauu! Enjoy your special day.
+God bless you Bhauu! Enjoy your special day.  aur Get Well Soon bro!
 
 And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
 
-Once Again Happiest birthday Garvitaa 🎀
-        </p>
+Once Again Happiest birthday Garvitaa 🎀`;
 
-        <button onclick="showGif()">Open a Message</button>
-    </div>
-</div>
+let i = 0;
+const speed = 25;
+const msgBox = document.getElementById("message");
 
-<!-- GIF POPUP PAGE -->
-<div id="gifPage">
-    <img id="gifImage" src="cute.gif" alt="Birthday GIF">
+function typeWriter() {
+    if (i < MSG.length) {
+        msgBox.innerHTML += MSG.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    } else {
+        // show gif after complete
+        setTimeout(showGif, 600);
+    }
+}
 
-    <p id="gifText">
-        bhai jyada der tak mat jaag 😭  
-        dark circles aa jayenge 😔  
-        phir look-maxxing ka progress reset ho jayega 💀  
-        chalo so jao bday boy  
-        kal physics ke paper me aag lagani hai 🔥
-    </p>
+document.getElementById("startBtn").onclick = () => {
+    msgBox.innerHTML = "";
+    i = 0;
+    typeWriter();
+    document.getElementById("startBtn").disabled = true;
+};
 
-    <button onclick="goBack()">Go Back</button>
-</div>
-
-<script>
 function showGif() {
     document.getElementById("mainContent").style.display = "none";
     document.getElementById("gifPage").style.display = "flex";
@@ -152,6 +182,8 @@ function showGif() {
 function goBack() {
     document.getElementById("gifPage").style.display = "none";
     document.getElementById("mainContent").style.display = "block";
+    msgBox.innerHTML = "";
+    document.getElementById("startBtn").disabled = false;
 }
 </script>
 
