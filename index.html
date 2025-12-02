@@ -35,27 +35,27 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 
 /* GIF POPUP */
 #gifContainer{
-  position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  z-index:70; transition: all 0.6s cubic-bezier(.68,-0.55,.27,1.55);
+  position: fixed; top:50%; left:50%;
+  transform: translate(-50%, -50%) scale(0);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 999;
+  transition: all 0.5s ease;
 }
 #gifContainer.show{
-  transform:translate(-50%, -50%) scale(1);
-  opacity:1;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
 }
 #gifContainer img{
-  max-width:260px; border-radius:12px; box-shadow:0 12px 38px rgba(0,0,0,0.52);
+  max-width: 260px; border-radius:12px;
 }
 #gifContainer .caption{
-  margin-top:12px;
-  text-align:center;
-  font-size:1rem;
-  color:#ffdcdc;
+  margin-top:12px; text-align:center; max-width:280px; color:#ffdcdc; line-height:1.4;
   text-shadow: 0 2px 6px rgba(0,0,0,0.45);
-  max-width: 280px; line-height:1.4;
 }
-#gifContainer button{ margin-top:12px; }
-@media(max-width:520px){ .typing{ max-height: 260px; padding:12px;} #gifContainer img{ max-width:180px;} }
+#gifContainer button{
+  margin-top:12px;
+  padding: 8px 12px;
+}
 
 /* sparkles */
 .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#ffffff 0%, rgba(255,255,255,0.2)60%);filter:blur(.6px);opacity:.95;transform:translate(-50%,-50%);animation:spark-rise 1.2s ease-out forwards;}
@@ -74,9 +74,9 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
   </div>
 </main>
 
-<!-- GIF popup -->
+ <!-- GIF overlay -->
 <div id="gifContainer">
-  <img src="your_gif.gif" alt="Funny Birthday GIF">
+  <img src="baby_dance.gif" alt="Funny Birthday GIF">
   <div class="caption">
     bhai jyada der tak mat jaag dark circles aa jayenge then look maxxing ka progress reset ho jayega 😔
     Chalo so jao bday boy kal fijicks ke paper mein aag lagana hai
@@ -106,9 +106,6 @@ Once Again Happiest birthday Garvitaa 🎀`;
 const messageEl = document.getElementById('message');
 const musicBtn = document.getElementById('musicBtn');
 const bgm = document.getElementById('bgMusic');
-const gifContainer = document.getElementById('gifContainer');
-const goBackBtn = document.getElementById('goBackBtn');
-const pageContent = document.getElementById('pageContent');
 
 let idx=0, TYPE_SPEED=22;
 
@@ -123,29 +120,24 @@ function typeStep(){
 
 function revealWithTypewriter(){ messageEl.innerHTML=''; idx=0; typeStep(); }
 
-function showGifButton(){
-  if(document.querySelector('#pageContent button.showGifBtn')) return;
-  const btn = document.createElement('button');
-  btn.className='btn showGifBtn';
-  btn.textContent='💌 A Message for You';
-  pageContent.appendChild(btn);
-  btn.addEventListener('click', ()=>{
-    pageContent.style.display='none'; // hide main content
-    gifContainer.style.display='flex';
-    setTimeout(()=> gifContainer.classList.add('show'), 20);
-  });
+const gifContainer = document.getElementById('gifContainer');
+const goBackBtn = document.getElementById('goBackBtn');
+const pageContent = document.getElementById('pageContent');
+
+function showGif() {
+  pageContent.style.display = 'none'; // hide main card
+  gifContainer.style.display = 'flex';
+  setTimeout(() => gifContainer.classList.add('show'), 20);
 }
 
-goBackBtn.addEventListener('click', ()=>{
+goBackBtn.addEventListener('click', () => {
   gifContainer.classList.remove('show');
-  setTimeout(()=>{
-    pageContent.style.display='block';
-    messageEl.innerHTML='';
+  setTimeout(() => {
+    pageContent.style.display = 'block';
+    messageEl.innerHTML=''; // reset typewriter
     idx=0;
     musicBtn.disabled=false;
     musicBtn.textContent='💗 Play Music & Reveal';
-    const btn = document.querySelector('#pageContent button.showGifBtn');
-    if(btn) btn.disabled=false;
   }, 400);
 });
 
