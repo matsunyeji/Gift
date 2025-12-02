@@ -43,16 +43,28 @@ button.btn[disabled]{ opacity:0.6; cursor:not-allowed }
 /* sparkles */
 .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,#ffffff 0%, rgba(255,255,255,0.2)60%);filter:blur(.6px);opacity:.95;transform:translate(-50%,-50%);animation:spark-rise 1.2s ease-out forwards;}
 @keyframes spark-rise{from{transform:translate(-50%,-50%) scale(1);opacity:1}to{transform:translate(-50%,-120%) scale(.4);opacity:0}}
+
+/* floating/dancing GIF animation */
+@keyframes floatDance {
+  0% { transform: translate(-50%, -50%) translateY(0) scale(1); }
+  25% { transform: translate(-50%, -50%) translateY(-8px) scale(1.03); }
+  50% { transform: translate(-50%, -50%) translateY(0) scale(1); }
+  75% { transform: translate(-50%, -50%) translateY(-5px) scale(1.02); }
+  100% { transform: translate(-50%, -50%) translateY(0) scale(1); }
+}
+#gifContainer.show img { animation: floatDance 2.2s ease-in-out infinite; }
 </style>
 </head>
 <body>
 <main class="card" id="mainCard">
-  <h1 class="title">🎉 Happy Birthday Garv! 🎉</h1>
-  <div id="message" class="typing"></div>
-  <div class="controls">
-    <button id="musicBtn" class="btn">💗 Play Music & Reveal</button>
+  <div id="pageContent">
+    <h1 class="title">🎉 Happy Birthday Garv! 🎉</h1>
+    <div id="message" class="typing"></div>
+    <div class="controls">
+      <button id="musicBtn" class="btn">💗 Play Music & Reveal</button>
+    </div>
+    <div class="note">— with lots of kasht taken by your homie</div>
   </div>
-  <div class="note">— with lots of kasht taken by your homie</div>
 </main>
 
 <!-- GIF popup -->
@@ -117,9 +129,19 @@ function showGifButton(){
   btn.textContent='💌 A Message for You';
   document.getElementById('mainCard').appendChild(btn);
   btn.addEventListener('click', ()=>{
+    // fade out page content
+    const pageContent = document.getElementById('pageContent');
+    pageContent.style.transition = 'opacity 0.6s ease';
+    pageContent.style.opacity = 0;
+    setTimeout(()=> pageContent.style.display='none', 600);
+
+    // show GIF
     gifContainer.classList.add('show');
-    btn.disabled=true;
+
+    // sparkles
     spawnSparkles(35);
+
+    btn.disabled = true;
   });
 }
 
