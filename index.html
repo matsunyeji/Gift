@@ -6,102 +6,97 @@
 <title>Gift</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: radial-gradient(circle at center, #0d0d2b, #000000 80%);
-        overflow-x: hidden;
-        color: white;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at center, #0d0d2b, #000000 80%);
+    overflow-x: hidden;
+    color: white;
+}
 
-    /* ⭐ STAR STYLE ⭐ */
-    .stars {
-        width: 2px;
-        height: 2px;
-        background: white;
-        position: absolute;
-        animation: twinkle 2s infinite alternate;
-        border-radius: 50%;
-        opacity: 0.8;
-    }
+/* STARS */
+.stars {
+    width: 2px;
+    height: 2px;
+    background: white;
+    position: absolute;
+    animation: twinkle 2s infinite alternate;
+    border-radius: 50%;
+    opacity: 0.8;
+}
 
-    @keyframes twinkle {
-        from { opacity: 0.3; transform: scale(1); }
-        to { opacity: 1; transform: scale(1.8); }
-    }
+@keyframes twinkle {
+    from { opacity: 0.3; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.8); }
+}
 
-    .stars:nth-child(odd) { animation-duration: 1.4s; }
-    .stars:nth-child(even) { animation-duration: 2s; }
+.card {
+    width: 90%;
+    max-width: 600px;
+    margin: 100px auto;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+}
 
-    /* MAIN CARD */
-    .card {
-        width: 90%;
-        max-width: 600px;
-        margin: 100px auto;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 25px;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(255,255,255,0.1);
-    }
+#message {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    max-height: 300px;
+    overflow-y: auto;
+}
 
-    #message {
-        margin-top: 20px;
-        white-space: pre-wrap;
-        line-height: 1.5;
-        max-height: 300px;
-        overflow-y: auto;
-    }
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    background: #ffffff;
+    color: #000;
+    font-weight: bold;
+}
 
-    button {
-        padding: 12px 20px;
-        font-size: 16px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        margin-top: 20px;
-        background: #ffffff;
-        color: #000;
-        font-weight: bold;
-    }
+/* GIF POPUP */
+#gifPage {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(4px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    text-align: center;
+    padding: 20px;
+}
 
-    /* GIF POPUP PAGE */
-    #gifPage {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0,0,0,0.9);
-        backdrop-filter: blur(4px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 999;
-        text-align: center;
-        padding: 20px;
-    }
+#gifPage img {
+    width: 300px;
+    max-width: 90%;
+    margin-bottom: 20px;
+}
 
-    #gifPage img {
-        width: 300px;
-        max-width: 90%;
-        margin-bottom: 20px;
-    }
-
-    #gifPage p {
-        font-size: 18px;
-        max-width: 90%;
-        line-height: 1.4;
-    }
+#gifPage p {
+    font-size: 18px;
+    max-width: 90%;
+    line-height: 1.4;
+}
 </style>
 </head>
 <body>
 
-<!-- ⭐ generate stars ⭐ -->
+<!-- MAKE STARS -->
 <script>
-for (let i = 0; i < 200; i++) {
+for (let i = 0; i < 220; i++) {
     let s = document.createElement("div");
     s.className = "stars";
     s.style.top = Math.random() * 100 + "vh";
@@ -110,20 +105,23 @@ for (let i = 0; i < 200; i++) {
 }
 </script>
 
-<!-- MAIN PAGE -->
+<!-- MAIN CONTENT -->
 <div id="mainContent">
     <div class="card">
-        <h2>🎉 Happy Birthday Bhai 🎉</h2>
+        <h2>🎉 Happy Birthday Garv! 🎉</h2>
 
         <div id="message"></div>
 
-        <button id="startBtn">Start</button>
+        <button id="startBtn">Start with Music</button>
+
+        <button id="gifBtn" style="display:none;">smtg..</button>
     </div>
 </div>
 
 <!-- GIF POPUP -->
 <div id="gifPage">
     <img src="cute.gif" alt="Cute GIF">
+
     <p>
         bhai jyada der tak mat jaag 😭  
         dark circles aa jayenge 😔  
@@ -134,6 +132,9 @@ for (let i = 0; i < 200; i++) {
 
     <button onclick="goBack()">Go Back</button>
 </div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" src="music.mp3" preload="auto"></audio>
 
 <script>
 const MSG = `Bhaiii tysm for guiding me and explaining things to me for hours like literally saving me every single time. And fr tg that you initiated that convo in the Live Insaan server varna hum aaj dost hi nahi hote ;-; (but aap catfish hote hote bach gaye 💀).
@@ -146,7 +147,7 @@ Lwky love your music taste ekdum slayyy (95% match 🥹) and your crazy humor �
 
 Waise Sorry but I drag you into all my kands because bro… ab toh you are the fire brigade aka Taarak Mehta 😭🙏 and main obviously Jethiya 😃 (ik ye line sachme ajeeb thi).
 
-God bless you Bhauu! Enjoy your special day.  aur Get Well Soon bro!
+God bless you Bhauu! Enjoy your special day. Aur Get well soon bro! 
 
 And all the bestest for tmrw's physics paper AAG LAGA DENAAA 🔥
 
@@ -155,35 +156,46 @@ Once Again Happiest birthday Garvitaa 🎀`;
 let i = 0;
 const speed = 25;
 const msgBox = document.getElementById("message");
+const gifBtn = document.getElementById("gifBtn");
 
 function typeWriter() {
     if (i < MSG.length) {
         msgBox.innerHTML += MSG.charAt(i);
         i++;
+
+        // AUTO SCROLL
+        msgBox.scrollTop = msgBox.scrollHeight;
+
         setTimeout(typeWriter, speed);
     } else {
-        // show gif after complete
-        setTimeout(showGif, 600);
+        gifBtn.style.display = "inline-block"; // show gif button
     }
 }
 
-document.getElementById("startBtn").onclick = () => {
+document.getElementById("startBtn").onclick = async () => {
     msgBox.innerHTML = "";
     i = 0;
+
+    // MUSIC
+    try {
+        let audio = document.getElementById("bgMusic");
+        await audio.play();
+        audio.volume = 0.8;
+        audio.loop = true;
+    } catch(e) {}
+
     typeWriter();
     document.getElementById("startBtn").disabled = true;
 };
 
-function showGif() {
+gifBtn.onclick = () => {
     document.getElementById("mainContent").style.display = "none";
     document.getElementById("gifPage").style.display = "flex";
-}
+};
 
 function goBack() {
     document.getElementById("gifPage").style.display = "none";
     document.getElementById("mainContent").style.display = "block";
-    msgBox.innerHTML = "";
-    document.getElementById("startBtn").disabled = false;
 }
 </script>
 
