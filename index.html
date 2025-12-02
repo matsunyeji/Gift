@@ -180,8 +180,19 @@ function showGifButton(){
 
 goBackBtn.addEventListener('click', ()=>{
   gifContainer.classList.remove('show');
+
+  // reset card and message
   card.style.display='block';
   setTimeout(()=> card.style.opacity = 1, 20);
+
+  // reset typed message
+  messageEl.innerHTML='';
+  idx=0;
+
+  // re-enable GIF button
+  const btn = document.querySelector('#pageContent button.showGifBtn');
+  if(btn) btn.disabled=false;
+
   spawnSparkles(20);
 });
 
